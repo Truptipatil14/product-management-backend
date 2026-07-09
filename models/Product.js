@@ -6,38 +6,46 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     category: {
       type: String,
       required: true,
     },
+
     brand: {
       type: String,
-      required: true,
+      default: "",
     },
+
     price: {
       type: Number,
       required: true,
     },
+
     discount: {
       type: Number,
       default: 0,
     },
+
     finalPrice: {
       type: Number,
-      required: true,
     },
+
     stock: {
       type: Number,
       required: true,
     },
+
     description: {
       type: String,
-      required: true,
+      default: "",
     },
+
     image: {
       type: String,
-      required: true,
+      default: "",
     },
+
     status: {
       type: String,
       enum: ["Active", "Inactive"],
