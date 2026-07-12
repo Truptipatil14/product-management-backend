@@ -1,5 +1,3 @@
-
-
 const express = require("express");
 
 const {
@@ -11,15 +9,15 @@ const {
 } = require("../controllers/productController");
 
 const upload = require("../middleware/upload");
+const protect = require("../middleware/auth");
 
 const router = express.Router();
-
 
 // =====================
 // IMAGE UPLOAD ROUTE
 // =====================
 
-router.post("/upload", upload.single("image"), (req, res) => {
+router.post("/upload", protect, upload.single("image"), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -33,7 +31,6 @@ router.post("/upload", upload.single("image"), (req, res) => {
       image: req.file.filename,
       imageUrl: `/uploads/${req.file.filename}`,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -43,30 +40,23 @@ router.post("/upload", upload.single("image"), (req, res) => {
   }
 });
 
-
 // =====================
 // PRODUCT CRUD ROUTES
 // =====================
 
-
-// Create Product
-router.post("/", createProduct);
-
-
-// Get All Products
+// Get All Products (public)
 router.get("/", getProducts);
 
-
-// Get Product By ID
+// Get Product By ID (public)
 router.get("/:id", getProductById);
 
+// Create Product (protected)
+router.post("/", protect, createProduct);
 
-// Update Product
-router.put("/:id", updateProduct);
+// Update Product (protected)
+router.put("/:id", protect, updateProduct);
 
-
-// Delete Product
-router.delete("/:id", deleteProduct);
-
+// Delete Product (protected)
+router.delete("/:id", protect, deleteProduct);
 
 module.exports = router;
